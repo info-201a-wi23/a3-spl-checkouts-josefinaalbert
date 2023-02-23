@@ -5,7 +5,9 @@ output: html_document
 
 ### Introduction
 
-An introduction of the data and a description of the trends/books/items you are choosing to analyze (and why!)
+The Seattle Public Library is a public library system that has a vast collection of books, eBooks, audiobooks, magazines, and videodiscs, and other mediums. The checkout data I will be using includes data of the library system from 2017 to 2022 and provides valuable insights into the library system's usage. Specifically, I will be analyzing the trends of books in this time period, including how the quantity of checked out books compares to other material types, and the times of year when books are most often checked out each year. In my charts, the number of checkouts for books and each material type is plotted over the years to analyze the trends in usage.
+My first chart analyses the trends of how often books are checked out each month, for the years 2017 through 2022. My second chart  will provide insights into which material types are the most popular among the library users, which material types are declining in usage, and how the usage of different material types has changed over the years. This information can be used by the library system to make decisions on resource allocation and planning for the future
+
 
 ### Summary Information
 
@@ -14,6 +16,7 @@ Write a summary paragraph of findings that includes the 5 values calculated from
 These will likely be calculated using your DPLYR skills, answering questions such as:
 
 - What is the average number of checkouts for each item?
+
 - What is the month or year with the most/least checkouts for a book that you're interested in?
 - What is the month or year with the most/least checkouts for ebooks?
 - How has the number of print book checkouts changed over time?
@@ -23,11 +26,17 @@ Feel free to calculate and report values that you find relevant.
 ### The Dataset
 
 - Who collected/published the data?  
+# This data was provided by The Seattle Public Library
 - What are the parameters of the data (dates, number of checkouts, kinds of books, etc.)?
+
 - How was the data collected or generated?  
+# The Seattle Public Library collects checkout data through their integrated library system, which tracks circulation and patron data. When a patron checks out a book or other library material, the item is scanned and the transaction is recorded in the system. They also sometimes collect additional data, such as the title and author of the material checked out, the date of checkout, the due date
 - Why was the data collected?  
-- What, if any, ethical questions do you need to consider when working with this data?  
+# Collecting library checkout data can be helpful in monitoring the scale and frequency of book and library usage, which can then improve customer service and managing the library's collection of books.
+- What, if any, ethical questions do you need to consider when working with this data?
+# Patron privacy can be a concern when dealing with library checkout data. A large ideology within libraries is maintaining privacy and have protections in place for data security. Additionally, having data like this could potentially target certain groups or communities and lead to discrimination.
 - What are possible limitations or problems with this data?   (at least 200 words)
+# A few limitations may arise with this data, including the fact that not all library materials are always checked out and some books and resources are used within the library. There also is a lack of context with the data, so we might not understand the full picture of why a patron is borrowing a book, or how they might use it.
 
 
 ### First Trends Over Time Chart
@@ -47,8 +56,9 @@ When we say "clear" or "human readable" titles and labels, that means that you s
 
 Here's an example of how to run an R script inside an RMarkdown file:
 
-``````{r, echo = FALSE, warning = FALSE, code = readLines("chart1_example.R")}
+``````{r, echo = FALSE, code = readLines("Chart2.R")}
 ```
+
 
 ### Second Trends Over Time Chart
 
@@ -67,7 +77,7 @@ When we say "clear" or "human readable" titles and labels, that means that you s
 
 Here's an example of how to run an R script inside an RMarkdown file:
 
-``````{r, echo = FALSE, code = readLines("chart2_example.R")}
+``````{r, echo = FALSE, code = readLines("Chart2.R")}
 ```
 
 ### Your Choice
@@ -80,7 +90,7 @@ The last chart is up to you. It could be a line plot, scatter plot, histogram, b
 
 Here's an example of how to run an R script inside an RMarkdown file:
 
-``````{r, echo = FALSE, code = readLines("chart2_example.R")}
+``````{r, echo = FALSE, code = readLines("Chart3.R")}
 ```
 
 
