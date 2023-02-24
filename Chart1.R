@@ -22,7 +22,7 @@ ggplot() +
   geom_line(data = books2019, aes(x = CheckoutMonth, y = checkouts, color = "books2019"), linewidth = 1) +
   geom_line(data = books2020, aes(x = CheckoutMonth, y = checkouts, color = "books2020"), linewidth = 1) +
   geom_line(data = books2021, aes(x = CheckoutMonth, y = checkouts, color = "books2021"), linewidth = 1) +
-  labs(x = "Year", y = "Number of Checkouts", title = "Number of Books Checked Out Each Month For Years 2017-2021") +
+  labs(x = "Month", y = "Number of Checkouts", title = "Number of Books Checked Out Each Month For Years 2017-2021") +
   scale_color_manual(values = c("books2017" = "lightyellow", "books2018" = "pink", "books2019" = "lightblue", "books2020" = "hotpink2", "books2021" = "lightsteelblue2"),
                      labels = c("2017","2018", "2019", "2020", "2021"),
                      name = "Month") +

@@ -27,8 +27,6 @@ ggplot() +
   geom_line(data = videodiscs_per_year, aes(x = CheckoutYear, y = Checkouts, color = "Videodiscs"), linewidth = 1) +
 
   labs(x = "Year", y = "Number of Checkouts", title = "Number of Checkouts Per Material Type from 2017-2022") +
-  scale_color_manual(values = c("Books" = "lightblue", "Ebooks" = "pink", "Audiobooks" = "lightyellow", "Magazines" = "maroon", "Videodiscs" = "lightcyan3"),
-                     labels = c("Books", "Ebooks", "Audiobooks", "Magazines", "Videodiscs"),
-                     name = "Material Type") +
+  scale_color_manual(values = c("Books" = "lightblue", "Ebooks" = "pink", "Audiobooks" = "lightyellow", "Magazines" = "maroon", "Videodiscs" = "lightcyan3"), name = "Material Type") +
   scale_x_continuous(limits = c(2017, 2022), breaks = seq(2017, 2022, 1))
 

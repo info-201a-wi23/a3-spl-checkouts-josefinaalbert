@@ -11,86 +11,188 @@ My first chart analyses the trends of how often books are checked out each month
 
 ### Summary Information
 
-Write a summary paragraph of findings that includes the 5 values calculated from your summary information R script
+Through my analysis I discovered a few significant values about my medium of interest: books. From 2017 to to 2023 the average number of books checked outper year was approximately 913,995 books. The most checked out book among all years, was  "Fear: Trump in the White House" by Bob Woodward, with a total of 847 check outs in 2018, which also happened to be the year with the most checkouts across all book titles, with a sum of 1,527,112 checkouts. On the other hand, the year 2020 faced the sharpest decline in book checkouts. In 2019, the total book checkouts was 1,490,783, which fell to 363,157 total book checkouts in 2020. While book checkouts were at a low in 2020, audiobooks, on the otherhand, were almost double at 735,943 checkouts.
 
-These will likely be calculated using your DPLYR skills, answering questions such as:
 
-- What is the average number of checkouts for each item?
+##### Questions and Code for Values in Summary Paragraph
+**What is the average number of books checked out per year?**
+The average number of books checked outper year from 2017 to 2023 was approximately 913,995 books.
 
-- What is the month or year with the most/least checkouts for a book that you're interested in?
-- What is the month or year with the most/least checkouts for ebooks?
-- How has the number of print book checkouts changed over time?
+```{r, echo = TRUE, warning = FALSE, message = FALSE}
+library("dplyr")
+library("stringr")
+checkout_df <- read.csv("~/Desktop/2017-2023-10-Checkouts-SPL-Data.csv")
+books <- checkout_df %>% filter(str_detect(MaterialType, "\\bBOOK\\b")) %>%
+select(CheckoutYear, CheckoutMonth, Checkouts)
 
-Feel free to calculate and report values that you find relevant.
+books_per_year <- books %>% group_by(CheckoutYear) %>% summarise(Checkouts = sum(Checkouts))
+avg_books_per_year <- books_per_year %>% summarise(average = mean(Checkouts))
+```
 
+**In 2020, how did audiobooks checked out compare to books checked out?**
+In 2020, audiobooks had 735,943 check outs, while books had 363,157, almost half of audiobooks.
+
+```{r, echo = TRUE, warning = FALSE, message = FALSE}
+library("dplyr")
+audiobooks <- checkout_df %>% filter(str_detect(MaterialType, "\\bAUDIOBOOK\\b")) %>% select(CheckoutYear, Checkouts)
+
+audiobooks_per_year <- audiobooks %>% group_by(CheckoutYear) %>% summarise(Checkouts = sum(Checkouts)) 
+
+books_per_year <- books %>% group_by(CheckoutYear) %>% summarise(Checkouts = sum(Checkouts))
+```
+
+**Which year had the most books checked out?**
+The year with the most checked out books occurred in 2018 with a total of 1,527,112 total books checked out. 
+
+```{r, echo = TRUE, warning = FALSE, message = FALSE}
+library("dplyr")
+books_per_year <- books %>% group_by(CheckoutYear) %>% summarise(Checkouts = sum(Checkouts))
+```
+
+**What was the most checked out book for years 2017 through 2023?**
+The most checked out book among all 847 Fear:Trump in the White House by Bob Woodward.
+
+```{r, echo = TRUE, warning = FALSE, message = FALSE}
+library("dplyr")
+Most_checked_out <- books %>% group_by(CheckoutYear) %>% filter(Checkouts == max(Checkouts))
+```
+
+**Which material had the greatest change in checkouts in the span of one year?**
+Books had the greatest change in checkouts in the span of one year which occurred during 2019 to 2020, with a drop from 1,490,783 in 2019 to 363,157 in 2020.
+
+```{r, echo = TRUE, warning = FALSE, message = FALSE}
+library("dplyr")
+books_per_year <- books %>% group_by(CheckoutYear) %>% summarise(Checkouts = sum(Checkouts))
+```
 ### The Dataset
 
 - Who collected/published the data?  
-# This data was provided by The Seattle Public Library
+
+This data was provided by The Seattle Public Library.
+
 - What are the parameters of the data (dates, number of checkouts, kinds of books, etc.)?
 
+There are various parameters for the data from the Seattle Public Library. The dates for all checkouts for the data I used range from 2017 to 2023 and include a range of materials to checkout, including books, audiobooks, ebooks, magazines, video discs, music, and sounds discs. The data also includes the subjects the materials may contain including various subsets of fiction and nonfiction. The amount of checkouts per each object ranges greatly, with the highest amount of checkouts for one item in one month being 4903 and the lowest being 10.
+
 - How was the data collected or generated?  
-# The Seattle Public Library collects checkout data through their integrated library system, which tracks circulation and patron data. When a patron checks out a book or other library material, the item is scanned and the transaction is recorded in the system. They also sometimes collect additional data, such as the title and author of the material checked out, the date of checkout, the due date
+
+The Seattle Public Library collects checkout data through their integrated library system, which tracks circulation and patron data. When a patron checks out a book or other library material, the item is scanned and the transaction is recorded in the system. They also sometimes collect additional data, such as the title and author of the material checked out, the date of checkout, the due date.
+
 - Why was the data collected?  
-# Collecting library checkout data can be helpful in monitoring the scale and frequency of book and library usage, which can then improve customer service and managing the library's collection of books.
+
+Collecting library checkout data can be helpful in monitoring the scale and frequency of book and library usage, which can then improve customer service and managing the library's collection of books.
+
 - What, if any, ethical questions do you need to consider when working with this data?
-# Patron privacy can be a concern when dealing with library checkout data. A large ideology within libraries is maintaining privacy and have protections in place for data security. Additionally, having data like this could potentially target certain groups or communities and lead to discrimination.
+
+Patron privacy can be a concern when dealing with library checkout data. A large ideology within libraries is maintaining privacy and have protections in place for data security. Additionally, having data like this could potentially target certain groups or communities and lead to discrimination.
+
 - What are possible limitations or problems with this data?   (at least 200 words)
-# A few limitations may arise with this data, including the fact that not all library materials are always checked out and some books and resources are used within the library. There also is a lack of context with the data, so we might not understand the full picture of why a patron is borrowing a book, or how they might use it.
+
+A few limitations may arise with this data, including the fact that not all library materials are always checked out and some books and resources are used within the library. There also is a lack of context with the data, so we might not understand the full picture of why a patron is borrowing a book, or how they might use it.
 
 
 ### First Trends Over Time Chart
 
-Include a chart. Make sure to describe why you included the chart, and what patterns emerged
+In this chart I compared the amount of books checked out each month across the years. There a few trends that emerged in this chart, including a peak around month 7, or July, for 2017, 2018, and 2019. This may have emerged due to the fact that people often have more leisure time for activities like reading in the summer months. For years 2020 and 2021 we see a major decline checkouts. This may be due to the COVID-19 pandemic, and the fact that the library did not allow for physical book checkouts for a period during this time.
+I think this data was important to include it may help to predict and visualize future trends for book checkouts.
 
-The first chart that you will create and include will show the trend over time of your variable/topic/interest. Think carefully about what you want to communicate to your user (you may have to find relevant trends in the dataset first!). Here are some requirements to help guide your design:
+```{r, echo = FALSE, warning = FALSE, message = FALSE, fig.align = "center", code = readLines("Chart1.R")}
+library("dplyr")
+library("ggplot2")
+library("stringr")
+library("scales")
+checkout_df <- read.csv("~/Desktop/2017-2023-10-Checkouts-SPL-Data.csv")
 
-- Show more than one, but fewer than ~10 trends
-  - For example, two books, or 5 different mediums
-- You must have clear x and y axis labels
-- The chart needs a clear title 
-- You need a legend for your different line colors and a clear - legend title
-In your .Rmd file, make sure to describe why you included the chart, and what patterns emerged
+books <- checkout_df %>% filter(str_detect(MaterialType, "\\bBOOK\\b")) %>% select(CheckoutYear, CheckoutMonth, Checkouts)
 
-When we say "clear" or "human readable" titles and labels, that means that you should not just display the variable name.
+books2017 <- books %>% filter(str_detect(CheckoutYear, "2017")) %>% group_by(CheckoutMonth) %>% summarise(checkouts = sum(Checkouts))
 
-Here's an example of how to run an R script inside an RMarkdown file:
+books2018 <-  books %>% filter(str_detect(CheckoutYear, "2018")) %>% group_by(CheckoutMonth) %>% summarise(checkouts = sum(Checkouts))
 
-``````{r, echo = FALSE, code = readLines("Chart2.R")}
+books2019 <-  books %>% filter(str_detect(CheckoutYear, "2019")) %>% group_by(CheckoutMonth) %>% summarise(checkouts = sum(Checkouts))
+
+books2020 <-  books %>% filter(str_detect(CheckoutYear, "2020")) %>% group_by(CheckoutMonth) %>% summarise(checkouts = sum(Checkouts)) 
+
+books2021 <-  books %>% filter(str_detect(CheckoutYear, "2021")) %>% group_by(CheckoutMonth) %>% summarise(checkouts = sum(Checkouts))
+
+ggplot() +
+  geom_line(data = books2017, aes(x = CheckoutMonth, y = checkouts, color = "books2017"), linewidth = 1) +
+  geom_line(data = books2018, aes(x = CheckoutMonth, y = checkouts, color = "books2018"), linewidth = 1) +
+  geom_line(data = books2019, aes(x = CheckoutMonth, y = checkouts, color = "books2019"), linewidth = 1) +
+  geom_line(data = books2020, aes(x = CheckoutMonth, y = checkouts, color = "books2020"), linewidth = 1) +
+  geom_line(data = books2021, aes(x = CheckoutMonth, y = checkouts, color = "books2021"), linewidth = 1) +
+  labs(x = "Month", y = "Number of Checkouts", title = "Number of Books Checked Out Each Month For Years 2017-2021") +
+  scale_color_manual(values = c("books2017" = "lightyellow", "books2018" = "pink", "books2019" = "lightblue", "books2020" = "hotpink2", "books2021" = "lightsteelblue2"),
+                     labels = c("2017","2018", "2019", "2020", "2021"),
+                     name = "Month") +
+  scale_x_continuous(limits = c(1, 12), breaks = seq(1, 12, 1)) +
+  scale_y_continuous(labels = label_number_si(), breaks = seq(0, 200000, by = 20000))
 ```
 
 
 ### Second Trends Over Time Chart
+This chart visualizes the amount of checkouts per material type for 2017 to 2022. It can be helpful in understanding which material types are most likely to be checked out, and how a library can best allocate it's resources and materials. In 2020, we see a drastic drop in book checkouts, which correlates to the information in my first chart. Additionally, there is a steady increase in ebooks and audiobooks, along with steep decline of video discs, and an almost disappearance of magazines. I think this chart is important to inlcude because it illustrates a potential "changing of the time". I think this data may be indicative of the rising dependence in digital technological and the straying from physical material.
 
-Include a chart. Make sure to describe why you included the chart, and what patterns emerged
 
-The second chart that you will create and include will show another trend over time of your variable/topic/interest. Think carefully about what you want to communicate to your user (you may have to find relevant trends in the dataset first!). Here are some requirements to help guide your design:
+```{r, echo = FALSE, warning = FALSE, message = FALSE, fig.align = "center", code = readLines("Chart2.R")}
+library("dplyr")
+library("ggplot2")
+library("stringr")
+checkout_df <- read.csv("~/Desktop/2017-2023-10-Checkouts-SPL-Data.csv")
 
-- Show more than one, but fewer than ~10 trends
-  - For example, two books, or 5 different mediums
-- You must have clear x and y axis labels
-- The chart needs a clear title 
-- You need a legend for your different line colors and a clear - legend title
-In your .Rmd file, make sure to describe why you included the chart, and what patterns emerged
+books <- checkout_df %>% filter(str_detect(MaterialType, "\\bBOOK\\b")) %>% select(CheckoutYear, Checkouts)
+books_per_year <- books %>% group_by(CheckoutYear) %>% summarise(Checkouts = sum(Checkouts))
 
-When we say "clear" or "human readable" titles and labels, that means that you should not just display the variable name.
+ebooks <- checkout_df %>% filter(str_detect(MaterialType, "\\bEBOOK\\b")) %>% select(CheckoutYear, Checkouts)
+ebooks_per_year <- ebooks %>% group_by(CheckoutYear) %>% summarise(Checkouts = sum(Checkouts))
 
-Here's an example of how to run an R script inside an RMarkdown file:
+audiobooks <- checkout_df %>% filter(str_detect(MaterialType, "\\bAUDIOBOOK\\b")) %>% select(CheckoutYear, Checkouts)
+audiobooks_per_year <- audiobooks %>% group_by(CheckoutYear) %>% summarise(Checkouts = sum(Checkouts))
 
-``````{r, echo = FALSE, code = readLines("Chart2.R")}
+magazines <- checkout_df %>% filter(str_detect(MaterialType, "\\bMAGAZINE\\b")) %>% select(CheckoutYear, Checkouts)
+magazines_per_year <- magazines %>% group_by(CheckoutYear) %>% summarise(Checkouts = sum(Checkouts))
+
+videodiscs <- checkout_df %>% filter(str_detect(MaterialType, "\\bVIDEODISC\\b")) %>% select(CheckoutYear, Checkouts)
+videodiscs_per_year <- videodiscs %>% group_by(CheckoutYear) %>% summarise(Checkouts = sum(Checkouts))
+
+ggplot() +
+  geom_line(data = books_per_year, aes(x = CheckoutYear, y = Checkouts, color = "Books"), linewidth = 1) +
+  geom_line(data = ebooks_per_year, aes(x = CheckoutYear, y = Checkouts, color = "Ebooks"), linewidth = 1) +
+  geom_line(data = audiobooks_per_year, aes(x = CheckoutYear, y = Checkouts, color = "Audiobooks"), linewidth = 1) +
+  geom_line(data = magazines_per_year, aes(x = CheckoutYear, y = Checkouts, color = "Magazines"), linewidth = 1) +
+
+  geom_line(data = videodiscs_per_year, aes(x = CheckoutYear, y = Checkouts, color = "Videodiscs"), linewidth = 1) +
+
+  labs(x = "Year", y = "Number of Checkouts", title = "Number of Checkouts Per Material Type from 2017-2022") +
+  scale_color_manual(values = c("Books" = "lightblue", "Ebooks" = "pink", "Audiobooks" = "lightyellow", "Magazines" = "maroon", "Videodiscs" = "lightcyan3"), name = "Material Type") +
+  scale_x_continuous(limits = c(2017, 2022), breaks = seq(2017, 2022, 1))
+
 ```
 
-### Your Choice
+### Third chart
 
-The last chart is up to you. It could be a line plot, scatter plot, histogram, bar plot, stacked bar plot, and more. Here are some requirements to help guide your design:
+This bar chart shows the most checked out book per year from 2017 to 2022, along with the number of checkouts. Despite the year, for 2017, 2018 and 2019 the book with the most checkouts all landed at almost the exact same number, around 800 checkouts. However, as also illustrated in the previous charts, we see a decline in years past 2020, with the most checked out book falling at around 500 checkouts. It's also interesting to see that the titles that received the most checkouts are often on topics that are culturally relevant, such as Michelle Obama's autobiography, a nonfiction book about Donald Trump's presidency, and Prince Harry's autobiography.
 
-- You must have clear x and y axis labels
-- The chart needs a clear title 
-- You need a legend for your different line colors and a clear legend title
+```{r, echo = FALSE, fig.align = "center", code = readLines("Chart3.R")}
+library("dplyr")
+library("ggplot2")
+library("stringr")
+checkout_df <- read.csv("~/Desktop/2017-2023-10-Checkouts-SPL-Data.csv")
 
-Here's an example of how to run an R script inside an RMarkdown file:
+books <- checkout_df %>% filter(str_detect(MaterialType, "\\bBOOK\\b")) %>% select(CheckoutYear, Checkouts, Title, Creator, Subjects)
 
-``````{r, echo = FALSE, code = readLines("Chart3.R")}
+Most_checked_out <- books %>% group_by(CheckoutYear) %>% filter(Checkouts == max(Checkouts)) %>% select(CheckoutYear, Title, Checkouts)
+
+library(ggplot2)
+
+ggplot(Most_checked_out, aes(x = CheckoutYear, y = Checkouts, fill = Title)) +
+  geom_col(position = "dodge") +
+  theme_minimal() +
+  labs(title = "Most Checked Out Books per Year",
+       x = "Checkout Year",
+       y = "Number of Checkouts",
+       fill = "Title")
+
 ```
 
 
